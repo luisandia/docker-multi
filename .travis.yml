@@ -1,0 +1,39 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t luisandia/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true luisandia/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t luisandia/multi-client ./client
+  - docker build -t luisandia/multi-nginx ./nginx
+  - docker build -t luisandia/multi-server ./server
+  - docker build -t luisandia/multi-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push luisandia/multi-client
+  - docker push luisandia/multi-nginx
+  - docker push luisandia/multi-server
+  - docker push luisandia/multi-worker
+# deploy:
+#   provider: heroku
+#   on:
+#     branch: master
+#   api_key:
+#     secure: $api_heroku_docker_react
+#   app: heroku-docker-react
+# deploy:
+#   provider: elasticbeanstalk
+#   region: us-east-1
+#   app: multi-docker-2
+#   env: MultiDocker2-env
+#   bucket_name: elasticbeanstalk-us-east-1-061949854834
+#   bucket_path: docker-multi-2
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key: $AWS_SECRET_KEY
