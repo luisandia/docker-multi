@@ -19,13 +19,13 @@ after_success:
   - docker push luisandia/multi-nginx
   - docker push luisandia/multi-server
   - docker push luisandia/multi-worker
-deploy:
-  provider: heroku
-  on:
-    branch: master
-  api_key:
-    secure: $api_heroku_docker_react
-  app: heroku-docker-multi
+# deploy:
+#   provider: heroku
+#   on:
+#     branch: master
+#   api_key:
+#     secure: $api_heroku_docker_react
+#   app: heroku-docker-multi
 # deploy:
 #   provider: elasticbeanstalk
 #   region: us-east-1
