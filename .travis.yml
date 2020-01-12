@@ -25,7 +25,7 @@ deploy:
     branch: master
   api_key:
     secure: $api_heroku_docker_react
-  app: heroku-docker-react
+  app: heroku-docker-multi
 # deploy:
 #   provider: elasticbeanstalk
 #   region: us-east-1
